@@ -40,4 +40,5 @@ compile-features = ["cxx_std_23"]
 link-libraries = [
 	"glm",
 	"plugin_renderlib",
+	"ws2_32"
 ]

@@ -1,7 +1,100 @@
 # cmkr
-build*/
 cmake-build*/
 CMakerLists.txt
 CMakeLists.txt.user
 
+# General OS-specific files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.tmp
+
+# CMake files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+build/
+build*/
+
+# C++ specific
+*.o
+*.obj
+*.so
+*.dll
+*.dylib
+*.exe
+*.out
+*.a
+*.lib
+*.lo
+*.cmake
+
+# C# / .NET specific
+*.dll
+*.exe
+*.pdb
+*.vshost.*
+*.log
+*.userprefs
+*.suo
+*.csproj.user
+*.cache
+*.mono
+*.vspscc
+*.vssscc
+bin/
+obj/
+Debug/
+Release/
+*.publish/
+
+# Visual Studio
+.vscode/
+.vs/
+*.code-workspace
+*.ide.*
+
+# Packages
+*.nuget/
+*.nupkg
+packages/
+
+# Logs and database
+*.log
+*.ldf
+*.mdf
+
+# Temp files
+~$*
+*.tmp
+*.bak
+*.old
+*.swp
+
+# Ignore IDE settings and configurations
+.idea/
+*.iml
+
+# Ignore coverage and analysis reports
+*.coverage
+*.coveragexml
+_TestResults/
+Reports/
+
+# Ignore by extensions
+*.class
+*.pyc
+*.pyo
+*.pyd
+*.pidb
+
+# Ignore all auto-generated files or directories
+*.ipch
+*.tlog
+*.lastbuildstate
+
+#Other
 *.zip
+

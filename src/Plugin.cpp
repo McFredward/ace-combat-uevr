@@ -23,6 +23,8 @@
 #include "acesdk/NimbusPlayerCameraManager.hpp"
 #include "acesdk/NimbusPlayerController.hpp"
 
+#include "TelemetrySender.hpp"
+
 using namespace uevr;
 
 class AceCombatPlugin : public uevr::Plugin
@@ -33,6 +35,7 @@ class AceCombatPlugin : public uevr::Plugin
 	void on_initialize() override
 	{
 		ImGui::CreateContext();
+		sender.Initialize("127.0.0.1", telemetryPort);
 	}
 
 	void on_present() override
@@ -232,6 +235,13 @@ class AceCombatPlugin : public uevr::Plugin
 			}
 		}
 	}
+
+	void on_xinput_set_state(uint32_t *retval, uint32_t user_index,
+							 XINPUT_VIBRATION *vibration) override{
+		last_rumble_left = vibration->wLeftMotorSpeed;
+		last_rumble_right = vibration->wRightMotorSpeed;
+	}
+
 
   private:
 	enum CameraSetupState
@@ -599,6 +609,8 @@ class AceCombatPlugin : public uevr::Plugin
 			return;
 		}
 		m_last_root_rotation = *root_rotation;
+		// Send rotation data to UDP socket for motion rigs to be used
+		sender.SendTelemetryData(m_last_root_rotation,last_rumble_left,last_rumble_right);
 
 		const auto root_location = pawn_root_component->prop_relative_location();
 		if(!root_location) {
@@ -744,6 +756,12 @@ class AceCombatPlugin : public uevr::Plugin
 	bool m_should_show_cheat_ui = false;
 	bool m_mission_autocomplete_cheat_enabled = false;
 	bool m_mission_autocomplete_cheat_applied = false;
+
+
+	TelemetrySender sender;
+	int telemetryPort = 20777;
+	WORD last_rumble_left = 0;
+	WORD last_rumble_right = 0;
 };
 
 // Actually creates the plugin. Very important that this global is created.

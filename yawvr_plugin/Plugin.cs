@@ -41,7 +41,7 @@ namespace YawVR_Game_Engine.Plugin
         //We'll provide these inputs to the app.. This can even be marshalled from a struct for example
         private string[] inputNames = new string[]
         {
-            "YAW","PITCH","ROLL"
+			"PITCH","YAW","ROLL"
         };
 
         
@@ -122,7 +122,7 @@ namespace YawVR_Game_Engine.Plugin
 							float last_rumble_left = BitConverter.ToSingle(data, 12);
 							float last_rumble_right = BitConverter.ToSingle(data, 16);
 
-							(float pitch_noisy, float yaw_noisy, float roll_noisy) = AddRumbleToMotion(pitch, yaw, roll, last_rumble_left, last_rumble_right);
+							(float pitch_noisy, float yaw_noisy, float roll_noisy) = AddRumbleToMotion(pitch, yaw, roll, last_rumble_left, last_rumble_right, 2.5f);
 
 							// Forward the values to the app
 							controller.SetInput(0, pitch_noisy);
@@ -157,7 +157,8 @@ namespace YawVR_Game_Engine.Plugin
 			float yaw,
 			float roll,
 			float lastRumbleLeft,
-			float lastRumbleRight)
+			float lastRumbleRight,
+			float max_rumble_degree)
 		{
 			// Normalize rumble values (0 to 65535) to a range for vibration intensity (e.g., 0 to 1)
 			double intensityLeft = lastRumbleLeft / 65535.0;
@@ -167,7 +168,7 @@ namespace YawVR_Game_Engine.Plugin
 			double combinedIntensity = (intensityLeft + intensityRight) / 2.0;
 
 			// Maximum noise deviation (in degrees)
-			double maxDeviation = 2.5 * combinedIntensity;
+			double maxDeviation = max_rumble_degree * combinedIntensity;
 
 			// Add random noise to yaw, pitch, and roll
 			float noiseYaw = GetRandomNoise(maxDeviation);

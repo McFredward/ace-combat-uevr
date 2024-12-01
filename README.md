@@ -1,20 +1,25 @@
-# Ace Combat 7 UEVR compatibility mod
+# Playing Ace Combat 7 in VR with the Yaw 3
 
-### Download UEVR Profile [here](https://github.com/keton/ace-combat-uevr/releases/latest)
+## Installation Steps
 
-## Features
-1. fixes cockpit camera so it works out of the box in most situations
-1. adds 'unstuck cockpit instruments' button (left start/select button on Xbox controller) for those rare occurrences where automation fails.
-1. Adds optional controls remap selectable in plugin overlay in UEVR menu. For remap any standard RC control mode can be selected (Mode 1-4).
+1. Download [the latest UEVR Nightly version](https://github.com/praydog/UEVR-nightly/releases) and extract it to any location.
+2. Download UESS from [this link](https://www.nexusmods.com/acecombat7skiesunknown/mods/2474?tab=files) and extract the files into the game folder located at `...\common\ACE COMBAT 7`.
+3. Create the following directories:
+   - `ACE COMBAT 7\Game\Content\Paks\LogicMods`
+   - `ACE COMBAT 7\Game\Content\Paks\~LogicMods`
+4. Download this mod from Nexus Mods: [UEVR Compatibility Mod](https://www.nexusmods.com/acecombat7skiesunknown/mods/2387).
+5. Extract the file `UEVR_Compatibility_Mod_P.pak` into `ACE COMBAT 7\Game\Content\Paks\~LogicMods`.
+6. Download the UEVR Profile from [this GitHub repository](https://github.com/McFredward/ace-combat-uevr/releases).
+7. Launch UEVR and import the UEVR profile `Ace7Game.zip` using the "Import Config" option.
 
-## Building
+## Starting the Game
 
-1. Install Visual Studio 2022 with C++, Windows SDK and CMake support
-1. Make sure you follow all instructions [here](https://github.com/praydog/UEVR/blob/master/COMPILING.md) and are able to build UEVR from source
-1. Clone the repository
-1. Run `build.cmd` or in VS Developer Shell type:
-	```shell
-	cmake -S . -B build ./build -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release
-	cmake --build ./build --clean-first --config Release --target ace_combat_plugin
-	```
-1. copy resulting `ace_combat_plugin.dll` to your game profile `plugins` subfolder
+1. Start UEVR.
+2. Launch the YawVR Game Engine.
+3. Select the Ace Combat 7 profile and start it.
+4. Launch Ace Combat 7.
+5. Choose "Ace Combat 7" in the dropdown menu in UEVR and press "Inject."
+
+- Made by McFredward based on the great work of keton, kosnag & praydog.
+
+**Happy Yaw'ing!**

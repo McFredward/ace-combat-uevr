@@ -31,10 +31,48 @@ namespace YawVR_Game_Engine.Plugin
 
         public System.Drawing.Image Background => Resources.wide; // Wide logo for Description
 
-        public string Description => "<h1>DescriptionText</h1>"; // Description HTML. App uses HTMLRenderer for this, color,links, headers, supported
+		public string Description => @"
+			<!DOCTYPE html>
+			<html lang=""en"">
+			<head>
+				<meta charset=""UTF-8"">
+				<meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+				<title>UEVR Installation Guide</title>
+			</head>
+			<body>
+				<h1>UEVR Installation Guide</h1>
+				<h2>Installation Steps</h2>
+				<ol>
+					<li>Download <a href=""https://github.com/praydog/UEVR-nightly/releases"" target=""_blank"">the latest UEVR Nightly version</a> and extract it to any location.</li>
+					<li>Download UESS from <a href=""https://www.nexusmods.com/acecombat7skiesunknown/mods/2474?tab=files"" target=""_blank"">this link</a> and extract the files into the game folder located at ""...\common\ACE COMBAT 7"".</li>
+					<li>Create the following directories:
+						<ul>
+							<li>""ACE COMBAT 7\Game\Content\Paks\LogicMods""</li>
+							<li>""ACE COMBAT 7\Game\Content\Paks\~LogicMods""</li>
+						</ul>
+					</li>
+					<li>Download this mod from Nexus Mods: <a href=""https://www.nexusmods.com/acecombat7skiesunknown/mods/2387"" target=""_blank"">UEVR Compatibility Mod</a>.</li>
+					<li>Extract the file ""UEVR_Compatibility_Mod_P.pak"" into ""ACE COMBAT 7\Game\Content\Paks\~LogicMods"".</li>
+					<li>Download the UEVR Profile from <a href=""https://github.com/McFredward/ace-combat-uevr/releases"" target=""_blank"">this GitHub repository</a>.</li>
+					<li>Launch UEVR and import the UEVR profile ""Ace7Game.zip"" using the ""Import Config"" option.</li>
+				</ol>
+				<h2>Starting the Game</h2>
+				<ol>
+					<li>Start UEVR.</li>
+					<li>Launch the YawVR Game Engine.</li>
+					<li>Select the Ace Combat 7 profile and start it.</li>
+					<li>Launch Ace Combat 7.</li>
+					<li>Choose ""Ace Combat 7"" in the Dropwdown Menu in UEVR and press ""Inject"".</li>
+				</ol>
+				<li>Made by McFredward based on the great work of keton, kosnag & praydog</li>
+				<li><a href=""https://github.com/McFredward/ace-combat-uevr"" target=""_blank"">Sourcecode</a></li>
+				<p>Happy Yaw'ing!</p>
+			</body>
+			</html>
+			";
 
 
-        private IMainFormDispatcher dispatcher; // this is our reference to the app. Features like showing dialog/notification can be used
+		private IMainFormDispatcher dispatcher; // this is our reference to the app. Features like showing dialog/notification can be used
         private IProfileManager controller; // this is our reference to profile manager. input values need to be passed to this
 
 
@@ -59,9 +97,9 @@ namespace YawVR_Game_Engine.Plugin
         /// </summary>
         public List<Profile_Component> DefaultProfile()
         {
-            // ask the dispatcher to convert our string to a axis profile
-            return dispatcher.JsonToComponents(Resources.defaultProfile);
-        }
+			// ask the dispatcher to convert our string to a axis profile
+			return dispatcher.JsonToComponents(Resources.defaultProfile);
+		}
 
         /// <summary>
         /// Will be called at plugin stop request
@@ -97,35 +135,43 @@ namespace YawVR_Game_Engine.Plugin
 		public void Init()
 		{
 			tokenSource = new CancellationTokenSource();
-			new Thread(async () =>
+			new Thread(() =>
 			{
 				int port = 20777; // The UDP port to listen on
 				UdpClient udpClient = new UdpClient(port);
 				IPEndPoint remoteEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
 
-				// Set a reasonable buffer size
-				udpClient.Client.ReceiveBufferSize = 65536;
-
 				Console.WriteLine($"Listening for UDP packets on port {port}...");
-
-				// A task to handle receiving the most recent packet asynchronously
-				byte[] latestPacket = null; // Store the most recent packet
 
 				while (!tokenSource.IsCancellationRequested)
 				{
 					try
 					{
-						// Asynchronously receive data from the UDP socket
-						UdpReceiveResult result = await udpClient.ReceiveAsync();
+						// Receive UDP data
+						byte[] data = udpClient.Receive(ref remoteEndPoint);
 
-						// Ensure the data has the expected length (20 bytes)
-						if (result.Buffer.Length == 20)
+						// Ensure the data has the expected length (5 floats = 20 bytes)
+						if (data.Length == 20)
 						{
-							latestPacket = result.Buffer; // Only store the most recent packet
+							// Parse the first three floats: pitch, yaw, roll
+							float pitch = BitConverter.ToSingle(data, 0);
+							float yaw = BitConverter.ToSingle(data, 4);
+							float roll = BitConverter.ToSingle(data, 8);
+
+							float lastRumbleLeft = BitConverter.ToSingle(data, 12);
+							float lastRumbleRight = BitConverter.ToSingle(data, 16);
+							float normalizedCombinedRumble = ((lastRumbleLeft + lastRumbleRight) / 2.0f) / 65535.0f;
+
+
+							// Forward the values to the app
+							controller.SetInput(0, yaw);
+							controller.SetInput(1, pitch);
+							controller.SetInput(2, roll);
+							controller.SetInput(3, normalizedCombinedRumble);
 						}
 						else
 						{
-							Console.WriteLine($"Unexpected data size: {result.Buffer.Length} bytes. Skipping packet.");
+							Console.WriteLine($"Unexpected data size: {data.Length} bytes. Skipping packet.");
 						}
 					}
 					catch (SocketException ex)
@@ -136,27 +182,6 @@ namespace YawVR_Game_Engine.Plugin
 					catch (Exception ex)
 					{
 						Console.WriteLine($"Error: {ex.Message}");
-					}
-
-					// Process the latest packet if available
-					if (latestPacket != null)
-					{
-						float pitch = BitConverter.ToSingle(latestPacket, 0);
-						float yaw = BitConverter.ToSingle(latestPacket, 4);
-						float roll = BitConverter.ToSingle(latestPacket, 8);
-
-						float lastRumbleLeft = BitConverter.ToSingle(latestPacket, 12);
-						float lastRumbleRight = BitConverter.ToSingle(latestPacket, 16);
-						float normalizedCombinedRumble = ((lastRumbleLeft + lastRumbleRight) / 2.0f) / 65535.0f;
-
-						// Forward the values to the app
-						controller.SetInput(0, yaw);
-						controller.SetInput(1, pitch);
-						controller.SetInput(2, roll);
-						controller.SetInput(3, normalizedCombinedRumble);
-
-						// Optionally reset latestPacket to null if you want to process it only once
-						latestPacket = null; // Reset to avoid re-processing the same packet
 					}
 
 					Thread.Sleep(20); // Maintain 50 Hz update rate

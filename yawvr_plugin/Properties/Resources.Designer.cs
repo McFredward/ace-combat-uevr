@@ -61,7 +61,25 @@ namespace AceCombat7Plugin.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die {&quot;GameName&quot;:&quot;Ace Combat 7 Plugin&quot;,&quot;Name&quot;:&quot;Default&quot;,&quot;components&quot;:[{&quot;Constant&quot;:false,&quot;Input_index&quot;:0,&quot;Output_index&quot;:0,&quot;MultiplierPos&quot;:1.0,&quot;MultiplierNeg&quot;:1.0,&quot;Offset&quot;:0.0,&quot;Inverse&quot;:false,&quot;Limit&quot;:-1.0,&quot;Smoothing&quot;:1.0,&quot;Enabled&quot;:true,&quot;Spikeflatter&quot;:{&quot;Enabled&quot;:false,&quot;Limit&quot;:100.0,&quot;Strength&quot;:0.5},&quot;Deadzone&quot;:0.0,&quot;Type&quot;:0,&quot;Condition&quot;:[],&quot;Math&quot;:[]},{&quot;Constant&quot;:false,&quot;Input_index&quot;:1,&quot;Output_index&quot;:1,&quot;MultiplierPos&quot;:1.0,&quot;MultiplierNeg&quot;:1.0,&quot;Offset&quot;:0.0,&quot;Inverse&quot;:false,&quot;Limit&quot;:-1.0,&quot;Smoothing&quot;:1.0,&quot;Enabled&quot;:true,&quot;Spikef [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die {
+        ///    &quot;GameName&quot;: &quot;Ace Combat 7&quot;,
+        ///    &quot;Name&quot;: &quot;Default&quot;,
+        ///    &quot;components&quot;: [
+        ///        {
+        ///            &quot;Constant&quot;: false,
+        ///            &quot;Input_index&quot;: 0,
+        ///            &quot;Output_index&quot;: 0,
+        ///            &quot;MultiplierPos&quot;: 1.0,
+        ///            &quot;MultiplierNeg&quot;: 1.0,
+        ///            &quot;Offset&quot;: 0.0,
+        ///            &quot;Inverse&quot;: false,
+        ///            &quot;Limit&quot;: -1.0,
+        ///            &quot;Smoothing&quot;: 1.0,
+        ///            &quot;Enabled&quot;: true,
+        ///            &quot;Spikeflatter&quot;: {
+        ///                &quot;Enabled&quot;: false,
+        ///                &quot;Limit&quot;: 100.0,
+        ///         [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string defaultProfile {
             get {

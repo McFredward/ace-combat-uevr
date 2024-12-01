@@ -9,8 +9,9 @@
    - `ACE COMBAT 7\Game\Content\Paks\~LogicMods`
 4. Download this mod from Nexus Mods: [UEVR Compatibility Mod](https://www.nexusmods.com/acecombat7skiesunknown/mods/2387).
 5. Extract the file `UEVR_Compatibility_Mod_P.pak` into `ACE COMBAT 7\Game\Content\Paks\~LogicMods`.
-6. Download the UEVR Profile from [this GitHub repository](https://github.com/McFredward/ace-combat-uevr/releases).
+6. Download the UEVR Profile ( `Ace7Game.zip `) and the YawVR Ace Combat 7 plugin ( `AceCombat7Plugin.dll `) from [this GitHub repository](https://github.com/McFredward/ace-combat-uevr/releases).
 7. Launch UEVR and import the UEVR profile `Ace7Game.zip` using the "Import Config" option.
+8. Put the  `AceCombat7Plugin.dll` in the `/Gameplugins` folder of your YawVR-GameEngine folder.
 
 ## Starting the Game
 

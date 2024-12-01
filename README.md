@@ -1,4 +1,4 @@
-# Playing Ace Combat 7 in VR with the Yaw 3
+# Playing Ace Combat 7 in VR with a YawVR device.
 
 ## Installation Steps
 

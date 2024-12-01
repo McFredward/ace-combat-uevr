@@ -1,4 +1,4 @@
-using SamplePlugin.Properties;
+using AceCombat7Plugin.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -41,7 +41,7 @@ namespace YawVR_Game_Engine.Plugin
         //We'll provide these inputs to the app.. This can even be marshalled from a struct for example
         private string[] inputNames = new string[]
         {
-			"PITCH","YAW","ROLL"
+			"YAW","PITCH","ROLL", "RUMBLE_INTENSITY"
         };
 
         
@@ -97,41 +97,35 @@ namespace YawVR_Game_Engine.Plugin
 		public void Init()
 		{
 			tokenSource = new CancellationTokenSource();
-			new Thread(() =>
+			new Thread(async () =>
 			{
 				int port = 20777; // The UDP port to listen on
 				UdpClient udpClient = new UdpClient(port);
 				IPEndPoint remoteEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
 
+				// Set a reasonable buffer size
+				udpClient.Client.ReceiveBufferSize = 65536;
+
 				Console.WriteLine($"Listening for UDP packets on port {port}...");
+
+				// A task to handle receiving the most recent packet asynchronously
+				byte[] latestPacket = null; // Store the most recent packet
 
 				while (!tokenSource.IsCancellationRequested)
 				{
 					try
 					{
-						// Receive UDP data
-						byte[] data = udpClient.Receive(ref remoteEndPoint);
+						// Asynchronously receive data from the UDP socket
+						UdpReceiveResult result = await udpClient.ReceiveAsync();
 
-						// Ensure the data has the expected length (5 floats = 20 bytes)
-						if (data.Length == 20)
+						// Ensure the data has the expected length (20 bytes)
+						if (result.Buffer.Length == 20)
 						{
-							// Parse the first three floats: pitch, yaw, roll
-							float pitch = BitConverter.ToSingle(data, 0);
-							float yaw = BitConverter.ToSingle(data, 4);
-							float roll = BitConverter.ToSingle(data, 8);
-							float last_rumble_left = BitConverter.ToSingle(data, 12);
-							float last_rumble_right = BitConverter.ToSingle(data, 16);
-
-							(float pitch_noisy, float yaw_noisy, float roll_noisy) = AddRumbleToMotion(pitch, yaw, roll, last_rumble_left, last_rumble_right, 2.5f);
-
-							// Forward the values to the app
-							controller.SetInput(0, pitch_noisy);
-							controller.SetInput(1, yaw_noisy);
-							controller.SetInput(2, roll_noisy);
+							latestPacket = result.Buffer; // Only store the most recent packet
 						}
 						else
 						{
-							Console.WriteLine($"Unexpected data size: {data.Length} bytes. Skipping packet.");
+							Console.WriteLine($"Unexpected data size: {result.Buffer.Length} bytes. Skipping packet.");
 						}
 					}
 					catch (SocketException ex)
@@ -144,49 +138,32 @@ namespace YawVR_Game_Engine.Plugin
 						Console.WriteLine($"Error: {ex.Message}");
 					}
 
+					// Process the latest packet if available
+					if (latestPacket != null)
+					{
+						float pitch = BitConverter.ToSingle(latestPacket, 0);
+						float yaw = BitConverter.ToSingle(latestPacket, 4);
+						float roll = BitConverter.ToSingle(latestPacket, 8);
+
+						float lastRumbleLeft = BitConverter.ToSingle(latestPacket, 12);
+						float lastRumbleRight = BitConverter.ToSingle(latestPacket, 16);
+						float normalizedCombinedRumble = ((lastRumbleLeft + lastRumbleRight) / 2.0f) / 65535.0f;
+
+						// Forward the values to the app
+						controller.SetInput(0, yaw);
+						controller.SetInput(1, pitch);
+						controller.SetInput(2, roll);
+						controller.SetInput(3, normalizedCombinedRumble);
+
+						// Optionally reset latestPacket to null if you want to process it only once
+						latestPacket = null; // Reset to avoid re-processing the same packet
+					}
+
 					Thread.Sleep(20); // Maintain 50 Hz update rate
 				}
 
 				udpClient.Close();
 			}).Start();
-		}
-
-
-		public (float finalPitch, float finalYaw, float finalRoll) AddRumbleToMotion(
-			float pitch,
-			float yaw,
-			float roll,
-			float lastRumbleLeft,
-			float lastRumbleRight,
-			float max_rumble_degree)
-		{
-			// Normalize rumble values (0 to 65535) to a range for vibration intensity (e.g., 0 to 1)
-			double intensityLeft = lastRumbleLeft / 65535.0;
-			double intensityRight = lastRumbleRight / 65535.0;
-
-			// Average the intensities
-			double combinedIntensity = (intensityLeft + intensityRight) / 2.0;
-
-			// Maximum noise deviation (in degrees)
-			double maxDeviation = max_rumble_degree * combinedIntensity;
-
-			// Add random noise to yaw, pitch, and roll
-			float noiseYaw = GetRandomNoise(maxDeviation);
-			float noisePitch = GetRandomNoise(maxDeviation);
-			float noiseRoll = GetRandomNoise(maxDeviation);
-
-			// Apply noise
-			float finalYaw = yaw + noiseYaw;
-			float finalPitch = pitch + noisePitch;
-			float finalRoll = roll + noiseRoll;
-
-			return (finalYaw, finalPitch, finalRoll);
-		}
-
-		private float GetRandomNoise(double maxDeviation)
-		{
-			// Generate random noise in the range -maxDeviation to +maxDeviation
-			return (float)((random.NextDouble() * 2 - 1) * maxDeviation);
 		}
 
 		public void PatchGame()

@@ -5,6 +5,7 @@
 #include <sstream>
 
 #include <Windows.h>
+#include <chrono>
 
 // only really necessary if you want to render to the screen
 #include "imgui/imgui_impl_dx11.h"
@@ -610,7 +611,16 @@ class AceCombatPlugin : public uevr::Plugin
 		}
 		m_last_root_rotation = *root_rotation;
 		// Send rotation data to UDP socket for motion rigs to be used
-		sender.SendTelemetryData(m_last_root_rotation,last_rumble_left,last_rumble_right);
+		auto currentTime = std::chrono::steady_clock::now();
+		std::chrono::duration<float> elapsedTime = currentTime - lastSendTime;
+
+		// Check if 20ms (50Hz) have passed since the last packet was sent
+		if(elapsedTime.count() >= 0.03f) {		// 10 millisecond later than the rate (50Hz) of the YawVR
+			lastSendTime = currentTime;			  // Update the last send time
+
+			// Now send telemetry data as usual
+			sender.SendTelemetryData(m_last_root_rotation, last_rumble_left, last_rumble_right);
+		}
 
 		const auto root_location = pawn_root_component->prop_relative_location();
 		if(!root_location) {
@@ -759,6 +769,7 @@ class AceCombatPlugin : public uevr::Plugin
 
 
 	TelemetrySender sender;
+	std::chrono::steady_clock::time_point lastSendTime = std::chrono::steady_clock::now();
 	int telemetryPort = 20777;
 	WORD last_rumble_left = 0;
 	WORD last_rumble_right = 0;

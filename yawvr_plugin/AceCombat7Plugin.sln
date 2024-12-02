@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34902.65
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AceCombat7Plugin", "AceCombat7Plugin.csproj", "{290B44BB-AA86-4CCD-853A-0E03A686A888}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AceCombat7_dotnet8", "AceCombat7_dotnet8\AceCombat7_dotnet8.csproj", "{552911E8-ACA7-4707-9943-E7F6A09939C4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{290B44BB-AA86-4CCD-853A-0E03A686A888}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{290B44BB-AA86-4CCD-853A-0E03A686A888}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{290B44BB-AA86-4CCD-853A-0E03A686A888}.Release|Any CPU.Build.0 = Release|Any CPU
+		{552911E8-ACA7-4707-9943-E7F6A09939C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{552911E8-ACA7-4707-9943-E7F6A09939C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{552911E8-ACA7-4707-9943-E7F6A09939C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{552911E8-ACA7-4707-9943-E7F6A09939C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

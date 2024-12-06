@@ -1,10 +1,11 @@
+#define _WINSOCKAPI_ // Prevent inclusion of winsock.h
+
 #include <codecvt>
 #include <locale>
 #include <memory>
 #include <mutex>
 #include <sstream>
 
-#include <Windows.h>
 #include <chrono>
 
 // only really necessary if you want to render to the screen
@@ -610,17 +611,8 @@ class AceCombatPlugin : public uevr::Plugin
 			return;
 		}
 		m_last_root_rotation = *root_rotation;
-		// Send rotation data to UDP socket for motion rigs to be used
-		auto currentTime = std::chrono::steady_clock::now();
-		std::chrono::duration<float> elapsedTime = currentTime - lastSendTime;
 
-		// Check if 20ms (50Hz) have passed since the last packet was sent
-		if(elapsedTime.count() >= 0.03f) {		// 10 millisecond later than the rate (50Hz) of the YawVR
-			lastSendTime = currentTime;			  // Update the last send time
-
-			// Now send telemetry data as usual
-			sender.SendTelemetryData(m_last_root_rotation, last_rumble_left, last_rumble_right);
-		}
+		sender.updateData(m_last_root_rotation, last_rumble_left, last_rumble_right);
 
 		const auto root_location = pawn_root_component->prop_relative_location();
 		if(!root_location) {

@@ -22,8 +22,8 @@
     <Reference Include="System.ComponentModel.Composition">
       <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.ComponentModel.Composition.dll</HintPath>
     </Reference>
-    <Reference Include="YawGEAPI">
-      <HintPath>YawGEAPI-2.7.dll</HintPath>
+    <Reference Include="YawGLAPI">
+      <HintPath>C:\Program Files (x86)\Yaw Gamelink\YawGLAPI.dll</HintPath>
     </Reference>
   </ItemGroup>
 

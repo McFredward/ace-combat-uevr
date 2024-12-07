@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
-using YawGEAPI;
+using YawGLAPI;
 
 
 namespace YawVR_Game_Engine.Plugin
@@ -109,7 +109,6 @@ namespace YawVR_Game_Engine.Plugin
 					{
 						// Receive UDP data
 						byte[] data = udpClient.Receive(ref remoteEndPoint);
-						Debug.WriteLine(data.Length);
 						// Ensure the data has the expected length (5 floats = 20 bytes)
 						if (data.Length >= 20)
 						{
@@ -122,6 +121,8 @@ namespace YawVR_Game_Engine.Plugin
 							float lastRumbleRight = BitConverter.ToSingle(data, 16);
 							float normalizedCombinedRumble = ((lastRumbleLeft + lastRumbleRight) / 2.0f) / 65535.0f;
 
+							string current_time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+							//Debug.WriteLine($"{current_time} - yaw: {yaw}, pitch: {pitch}, roll: {roll}, rumble: {normalizedCombinedRumble}");
 
 							// Forward the values to the app
 							controller.SetInput(0, yaw);
@@ -131,17 +132,17 @@ namespace YawVR_Game_Engine.Plugin
 						}
 						else
 						{
-							Console.WriteLine($"Unexpected data size: {data.Length} bytes. Skipping packet.");
+							Debug.WriteLine($"Unexpected data size: {data.Length} bytes. Skipping packet.");
 						}
 					}
 					catch (SocketException ex)
 					{
-						Console.WriteLine($"Socket error: {ex.Message}");
+						Debug.WriteLine($"Socket error: {ex.Message}");
 						break; // Exit loop on socket error
 					}
 					catch (Exception ex)
 					{
-						Console.WriteLine($"Error: {ex.Message}");
+						Debug.WriteLine($"Error: {ex.Message}");
 					}
 
 					

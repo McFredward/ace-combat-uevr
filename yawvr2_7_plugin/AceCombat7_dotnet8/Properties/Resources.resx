@@ -260,31 +260,41 @@
   </data>
   <data name="desc" xml:space="preserve">
     <value>&lt;h1&gt;UEVR Installation Guide&lt;/h1&gt;
-				&lt;h2&gt;Installation Steps&lt;/h2&gt;
-				&lt;ol&gt;
-					&lt;li&gt;Download &lt;a href="https://github.com/praydog/UEVR-nightly/releases" target="_blank"&gt;the latest UEVR Nightly version&lt;/a&gt; and extract it to any location.&lt;/li&gt;
-					&lt;li&gt;Download UESS from &lt;a href="https://www.nexusmods.com/acecombat7skiesunknown/mods/2474?tab=files" target="_blank"&gt;this link&lt;/a&gt; and extract the files into the game folder located at "...\common\ACE COMBAT 7".&lt;/li&gt;
-					&lt;li&gt;Create the following directories:
-						&lt;ul&gt;
-							&lt;li&gt;"ACE COMBAT 7\Game\Content\Paks\LogicMods"&lt;/li&gt;
-							&lt;li&gt;"ACE COMBAT 7\Game\Content\Paks\~LogicMods"&lt;/li&gt;
-						&lt;/ul&gt;
-					&lt;/li&gt;
-					&lt;li&gt;Download this mod from Nexus Mods: &lt;a href="https://www.nexusmods.com/acecombat7skiesunknown/mods/2387" target="_blank"&gt;UEVR Compatibility Mod&lt;/a&gt;.&lt;/li&gt;
-					&lt;li&gt;Extract the file "UEVR_Compatibility_Mod_P.pak" into "ACE COMBAT 7\Game\Content\Paks\~LogicMods".&lt;/li&gt;
-					&lt;li&gt;Download the UEVR Profile from &lt;a href="https://github.com/McFredward/ace-combat-uevr/releases" target="_blank"&gt;this GitHub repository&lt;/a&gt;.&lt;/li&gt;
-					&lt;li&gt;Launch UEVR and import the UEVR profile "Ace7Game.zip" using the "Import Config" option.&lt;/li&gt;
-				&lt;/ol&gt;
-				&lt;h2&gt;Starting the Game&lt;/h2&gt;
-				&lt;ol&gt;
-					&lt;li&gt;Start UEVR.&lt;/li&gt;
-					&lt;li&gt;Launch the YawVR Game Engine.&lt;/li&gt;
-					&lt;li&gt;Select the Ace Combat 7 profile and start it.&lt;/li&gt;
-					&lt;li&gt;Launch Ace Combat 7.&lt;/li&gt;
-					&lt;li&gt;Choose "Ace Combat 7" in the Dropwdown Menu in UEVR and press "Inject".&lt;/li&gt;
-				&lt;/ol&gt;
-				&lt;li&gt;Made by McFredward based on the great work of keton, kosnag &amp; praydog&lt;/li&gt;
-				&lt;li&gt;&lt;a href="https://github.com/McFredward/ace-combat-uevr" target="_blank"&gt;Sourcecode&lt;/a&gt;&lt;/li&gt;
-				&lt;p&gt;Happy Yaw'ing!&lt;/p&gt;</value>
+&lt;h2&gt;Installation Steps&lt;/h2&gt;
+&lt;ol&gt;
+    &lt;li&gt;Download &lt;a href="https://github.com/praydog/UEVR-nightly/releases" target="_blank"&gt;the latest UEVR Nightly version&lt;/a&gt; and extract it to any location.&lt;/li&gt;
+    &lt;li&gt;Download UESS from &lt;a href="https://www.nexusmods.com/acecombat7skiesunknown/mods/2474?tab=files" target="_blank"&gt;this link&lt;/a&gt; and extract the files into the game folder located at "...\common\ACE COMBAT 7".&lt;/li&gt;
+    &lt;li&gt;Create the following directories:
+        &lt;ul&gt;
+            &lt;li&gt;"ACE COMBAT 7\Game\Content\Paks\LogicMods"&lt;/li&gt;
+            &lt;li&gt;"ACE COMBAT 7\Game\Content\Paks\~LogicMods"&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;Download this mod from Nexus Mods: &lt;a href="https://www.nexusmods.com/acecombat7skiesunknown/mods/2387" target="_blank"&gt;UEVR Compatibility Mod&lt;/a&gt;.&lt;/li&gt;
+    &lt;li&gt;Extract the file "UEVR_Compatibility_Mod_P.pak" into "ACE COMBAT 7\Game\Content\Paks\~LogicMods".&lt;/li&gt;
+    &lt;li&gt;Download the UEVR Profile from &lt;a href="https://github.com/McFredward/ace-combat-uevr/releases" target="_blank"&gt;this GitHub repository&lt;/a&gt;.&lt;/li&gt;
+    &lt;li&gt;Launch UEVR and import the UEVR profile "Ace7Game.zip" using the "Import Config" option.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2&gt;Important Warnings&lt;/h2&gt;
+&lt;p style="color: red; font-weight: bold;"&gt;
+    Warning: UEVR requires a very powerful gaming PC! The motion may lag even if the game itself runs smoothly. 
+    It is highly recommended to set the in-game graphics settings to medium to ensure optimal performance.
+&lt;/p&gt;
+&lt;p&gt;
+    Note: Even with my RTX 4090 and AMD Ryzen 7 7800X3D, I had to set the graphics to medium for smooth operation.
+&lt;/p&gt;
+
+&lt;h2&gt;Starting the Game&lt;/h2&gt;
+&lt;ol&gt;
+    &lt;li&gt;Start UEVR.&lt;/li&gt;
+    &lt;li&gt;Launch the YawVR Game Engine.&lt;/li&gt;
+    &lt;li&gt;Select the Ace Combat 7 profile and start it.&lt;/li&gt;
+    &lt;li&gt;Launch Ace Combat 7.&lt;/li&gt;
+    &lt;li&gt;Choose "Ace Combat 7" in the dropdown menu in UEVR and press "Inject".&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Made by McFredward based on the great work of keton, kosnag &amp; praydog&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/McFredward/ace-combat-uevr" target="_blank"&gt;Sourcecode&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Happy Yaw'ing!&lt;/p&gt;</value>
   </data>
 </root>

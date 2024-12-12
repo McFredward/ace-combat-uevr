@@ -63,8 +63,8 @@ namespace AceCombat7_dotnet8.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die {
         ///    &quot;GameName&quot;: &quot;Ace Combat 7&quot;,
-        ///    &quot;Name&quot;: &quot;Default&quot;,
-        ///    &quot;components&quot;: [
+        ///    &quot;Name&quot;: &quot;Default Copy &quot;,
+        ///    &quot;Components&quot;: [
         ///        {
         ///            &quot;Constant&quot;: false,
         ///            &quot;Input_index&quot;: 0,
@@ -79,7 +79,7 @@ namespace AceCombat7_dotnet8.Properties {
         ///            &quot;Spikeflatter&quot;: {
         ///                &quot;Enabled&quot;: false,
         ///                &quot;Limit&quot;: 100.0,
-        ///         [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///   [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string defaultProfile {
             get {

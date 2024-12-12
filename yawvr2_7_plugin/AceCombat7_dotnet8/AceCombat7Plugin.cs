@@ -121,7 +121,7 @@ namespace YawVR_Game_Engine.Plugin
 							float lastRumbleRight = BitConverter.ToSingle(data, 16);
 							float normalizedCombinedRumble = ((lastRumbleLeft + lastRumbleRight) / 2.0f) / 65535.0f;
 
-							string current_time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+							//string current_time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
 							//Debug.WriteLine($"{current_time} - yaw: {yaw}, pitch: {pitch}, roll: {roll}, rumble: {normalizedCombinedRumble}");
 
 							// Forward the values to the app

@@ -120,7 +120,7 @@
   <data name="defaultProfile" xml:space="preserve">
     <value>{
     "GameName": "Ace Combat 7",
-    "Name": "Default Copy ",
+    "Name": "Default",
     "Components": [
         {
             "Constant": false,
@@ -150,7 +150,7 @@
             "MultiplierPos": 0.2,
             "MultiplierNeg": 0.2,
             "Offset": 0.0,
-            "Inverse": false,
+            "Inverse": true,
             "Limit": -1.0,
             "Smoothing": 1.0,
             "Enabled": true,
@@ -171,7 +171,7 @@
             "MultiplierPos": 0.2,
             "MultiplierNeg": 0.2,
             "Offset": 0.0,
-            "Inverse": false,
+            "Inverse": true,
             "Limit": -1.0,
             "Smoothing": 1.0,
             "Enabled": true,

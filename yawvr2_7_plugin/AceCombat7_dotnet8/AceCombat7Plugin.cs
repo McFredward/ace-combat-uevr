@@ -1,6 +1,7 @@
 using AceCombat7_dotnet8.Properties;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
@@ -31,6 +32,11 @@ namespace YawVR_Game_Engine.Plugin
 
 		public string Description => Resources.desc;
 
+		private float yaw_immersive = 0.0f;
+		private float yaw_immersive_twist = 0.0f;
+		private float previous_yaw = 0.0f;
+		private float previous_roll_immersive_temp = 0.0f;
+
 
 		private IMainFormDispatcher dispatcher; // this is our reference to the app. Features like showing dialog/notification can be used
 		private IProfileManager controller; // this is our reference to profile manager. input values need to be passed to this
@@ -39,7 +45,7 @@ namespace YawVR_Game_Engine.Plugin
 		//We'll provide these inputs to the app.. This can even be marshalled from a struct for example
 		private string[] inputNames = new string[]
 		{
-			"YAW","PITCH","ROLL", "RUMBLE_INTENSITY"
+			"YAW","PITCH","ROLL", "RUMBLE_INTENSITY", "PITCH_MULTIPLIER", "ROLL_IMMERSIVE", "YAW_IMMERSIVE", "YAW_IMMERSIVE_TWIST"
 		};
 
 
@@ -116,6 +122,32 @@ namespace YawVR_Game_Engine.Plugin
 							float pitch = BitConverter.ToSingle(data, 0);
 							float yaw = BitConverter.ToSingle(data, 4);
 							float roll = BitConverter.ToSingle(data, 8);
+							float pitch_multiplier = (float)Math.Cos(Convert.ToDouble(pitch) * Math.PI / 180.0);
+
+							// Roll
+							float roll_immersive_temp;
+							if (roll < -90)
+							{
+								roll_immersive_temp = - 180 - roll;
+							}
+							else if(roll > 90)
+							{
+								roll_immersive_temp = 180 - roll;
+							}
+							else
+							{
+								roll_immersive_temp =  roll;
+							}
+
+							float roll_immersive = pitch_multiplier * roll_immersive_temp;
+
+							yaw_immersive = NormalizeAngle(yaw_immersive - (pitch_multiplier * NormalizeAngle(previous_yaw - yaw)));
+
+							yaw_immersive_twist = NormalizeAngle(yaw_immersive - (pitch_multiplier * NormalizeAngle(previous_yaw - yaw) + (1 - pitch_multiplier) * NormalizeAngle(previous_roll_immersive_temp - roll_immersive_temp)));
+
+
+							//float yaw_immersive = pitch_multiplier * NormalizeAngle(yaw + yaw_offset) + (1 - pitch_multiplier) * NormalizeAngle(roll_immersive + yaw + yaw_offset);
+
 
 							float lastRumbleLeft = BitConverter.ToSingle(data, 12);
 							float lastRumbleRight = BitConverter.ToSingle(data, 16);
@@ -129,6 +161,13 @@ namespace YawVR_Game_Engine.Plugin
 							controller.SetInput(1, pitch);
 							controller.SetInput(2, roll);
 							controller.SetInput(3, normalizedCombinedRumble);
+							controller.SetInput(4, pitch_multiplier);
+							controller.SetInput(5, roll_immersive);
+							controller.SetInput(6, yaw_immersive);
+							controller.SetInput(6, yaw_immersive_twist);
+
+							previous_yaw = yaw;
+							previous_roll_immersive_temp = roll_immersive_temp;
 						}
 						else
 						{
@@ -150,6 +189,14 @@ namespace YawVR_Game_Engine.Plugin
 
 				udpClient.Close();
 			}).Start();
+		}
+
+		private float NormalizeAngle(float angle)
+		{
+			// Bring the angle within the range [-180, 180]
+			while (angle > 180.0f) angle -= 360.0f;
+			while (angle < -180.0f) angle += 360.0f;
+			return angle;
 		}
 
 		public void PatchGame()

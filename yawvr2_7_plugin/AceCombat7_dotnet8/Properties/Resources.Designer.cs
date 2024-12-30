@@ -67,7 +67,7 @@ namespace AceCombat7_dotnet8.Properties {
         ///    &quot;Components&quot;: [
         ///        {
         ///            &quot;Constant&quot;: false,
-        ///            &quot;Input_index&quot;: 0,
+        ///            &quot;Input_index&quot;: 6,
         ///            &quot;Output_index&quot;: 0,
         ///            &quot;MultiplierPos&quot;: 1.0,
         ///            &quot;MultiplierNeg&quot;: 1.0,

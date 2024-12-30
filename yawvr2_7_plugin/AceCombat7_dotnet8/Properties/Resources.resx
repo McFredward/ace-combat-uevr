@@ -124,7 +124,7 @@
     "Components": [
         {
             "Constant": false,
-            "Input_index": 0,
+            "Input_index": 6,
             "Output_index": 0,
             "MultiplierPos": 1.0,
             "MultiplierNeg": 1.0,
@@ -147,8 +147,8 @@
             "Constant": false,
             "Input_index": 1,
             "Output_index": 1,
-            "MultiplierPos": 0.2,
-            "MultiplierNeg": 0.2,
+            "MultiplierPos": 0.7,
+            "MultiplierNeg": 0.4,
             "Offset": 0.0,
             "Inverse": true,
             "Limit": -1.0,
@@ -166,7 +166,7 @@
         },
         {
             "Constant": false,
-            "Input_index": 2,
+            "Input_index": 5,
             "Output_index": 2,
             "MultiplierPos": 0.2,
             "MultiplierNeg": 0.2,
@@ -208,7 +208,7 @@
         },
         {
             "Constant": true,
-            "Input_index": 4,
+            "Input_index": 8,
             "Output_index": 4,
             "MultiplierPos": 30.0,
             "MultiplierNeg": 30.0,
